@@ -16,9 +16,5 @@ class obj:
     def drawing(self, window):
         self.group.draw(window)
 
-    def animateSpider(self):
-        self.frame =+ 1
-        if self.frame > 4:
-            self.frame =1
-
-        self.sprite.image = pygame.image.load("assets/spider" + str(self.frame) + ".png")
+    def drawTree(self, window):
+        pass

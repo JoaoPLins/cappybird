@@ -3,14 +3,16 @@ from DRobj import obj
 from menu import Menu
 from game import game
 
+#precisa testar     
 pygame.init()
-
+icon = pygame.image.load("assets/cappy.png")
 
 class Main:
     def __init__(self,sizex,sizey,title):
 
         self.window = pygame.display.set_mode((sizex,sizey))
         self.title = pygame.display.set_caption(title)
+        self.icon = pygame.display.set_icon(icon)
 
         self.loop = True
         self.menu = Menu()
@@ -50,7 +52,7 @@ class Main:
 
 
 
-game = Main(360,640,"main")
+game = Main(288,512,"CappyBird")
 game.update()
 
 

@@ -1,11 +1,13 @@
 import pygame
 from DRobj import obj
+import random
 
 class game: 
     def __init__(self):
-        self.bg = obj("assets/bg.png", 0 ,0)
-        self.bg2 = obj("assets/bg.png",0,-640)
-        self.spider = obj("assets/spider1.png",200,200)
+        self.background = obj("assets/background.png" 0,0)
+        self.bg = obj("assets/base.png", 0 ,0)
+        self.bg2 = obj("assets/base.png",0,-640)
+        self.player = obj("assets/cappy.png",200,200)
         self.change_scene = False
 
         self.frame = 1
