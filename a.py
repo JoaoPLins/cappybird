@@ -1,0 +1,56 @@
+import pygame
+from DRobj import obj
+from menu import Menu
+from game import game
+
+pygame.init()
+
+
+class Main:
+    def __init__(self,sizex,sizey,title):
+
+        self.window = pygame.display.set_mode((sizex,sizey))
+        self.title = pygame.display.set_caption(title)
+
+        self.loop = True
+        self.menu = Menu()
+        self.game = game()
+        self.gameStatus = 0
+
+    def updategamestatus(self,arg):
+        self.gameStatus = arg
+
+    def draw(self):
+        if self.gameStatus == 0 :
+            self.menu.draw(self.window)
+                     
+        
+        if self.gameStatus == 1 :
+            self.game.draw(self.window)
+            self.game.update()
+    
+        
+
+
+    def events(self):
+        for events in pygame.event.get():
+            if events.type == pygame.QUIT:
+                self.loop = False
+            self.menu.events(events)    
+    def update(self):
+        while self.loop:
+            self.draw()
+            self.events()
+            if self.menu.change_scene == True:
+                            
+                self.updategamestatus(1)
+            
+            pygame.display.update()
+
+
+
+
+game = Main(360,640,"main")
+game.update()
+
+
