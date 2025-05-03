@@ -1,7 +1,7 @@
 import pygame
 from DRobj import obj
 from menu import Menu
-from game import game
+from game import Game
 
 #precisa testar     
 pygame.init()
@@ -16,7 +16,7 @@ class Main:
 
         self.loop = True
         self.menu = Menu()
-        self.game = game()
+        self.game = Game()
         self.gameStatus = 0
 
     def updategamestatus(self,arg):
