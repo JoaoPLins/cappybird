@@ -18,19 +18,22 @@ class Main:
         self.menu = Menu()
         self.game = Game()
         self.gameStatus = 0
+        
 
     def updategamestatus(self,arg):
         self.gameStatus = arg
 
     def draw(self):
-        if self.gameStatus == 0 :
-            self.menu.draw(self.window)
-                     
         
-        if self.gameStatus == 1 :
-            self.game.draw(self.window)
-            self.game.update()
-    
+        match self.gameStatus:
+
+            case 0:
+                self.menu.draw(self.window)
+            
+            case 1:
+                self.game.draw(self.window)
+                self.game.update()
+                
         
 
 
@@ -38,14 +41,22 @@ class Main:
         for events in pygame.event.get():
             if events.type == pygame.QUIT:
                 self.loop = False
-            self.menu.events(events)    
+            match self.gameStatus:
+                case 0: 
+                    self.menu.events(events)
+                case 1:
+                    self.game.events(events)    
+    
+    
     def update(self):
+        
         while self.loop:
             self.draw()
             self.events()
             if self.menu.change_scene == True:
                             
                 self.updategamestatus(1)
+                self.game.set_start()
             
             pygame.display.update()
 
