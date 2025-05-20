@@ -10,7 +10,7 @@ class Cappy():
         self.sprite.rect = self.sprite.image.get_rect()
         self.sprite.rect[0] = 100
         self.sprite.rect[1] = 100
-
+        self.cappyRect = pygame.Rect(self.sprite.rect[0],self.sprite.rect[1],10,10)
         self.frame = 1
 
 
@@ -19,5 +19,6 @@ class Cappy():
 
     def update(self,y):
         self.sprite.rect[1] = self.sprite.rect[1] + y
-        
+        self.cappyRect.update(self.sprite.rect[0],self.sprite.rect[1],10,10)
 
+        
