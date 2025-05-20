@@ -16,5 +16,8 @@ class obj:
     def drawing(self, window):
         self.group.draw(window)
 
-    def drawTree(self, window):
-        pass
+    def updateposs(self):
+        self.sprite.rect[0] = self.sprite.rect[0] -1
+
+    def colision(self):
+        self.sprite.rect.collision()
