@@ -19,5 +19,12 @@ class obj:
     def updateposs(self):
         self.sprite.rect[0] = self.sprite.rect[0] -1
 
+    def givethepoints(self):
+        if self.sprite.rect[0] == 90:
+            return 1
+        else:
+            return 0
+        
+
     def colision(self):
         self.sprite.rect.collision()

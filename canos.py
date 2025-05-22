@@ -10,6 +10,7 @@ class Canos():
         self.canoImage = ["assets/pipe.png","assets/pipe2.png"]
         #self.counter = 0
         self.ticks =200
+        self.points = 0
 
     def AddCano(self,v,base):
         if self.ticks == 200:
@@ -22,6 +23,9 @@ class Canos():
         else:
             self.ticks = self.ticks + 1
     
+    def get_points(self):
+        return self.points
+
     def removethecanos(self):
         a=0
         for a in  range(len(self.CanoObjup)-1):
@@ -42,6 +46,11 @@ class Canos():
         for a in range(len(self.CanoObjup)):
             self.CanoObjup[a].updateposs()
             self.CanoObjdn[a].updateposs()
+            if self.CanoObjdn[a].givethepoints() == 1:
+                self.points = self.points +1
+                print(self.points)
+            
+
 
         self.removethecanos()
 

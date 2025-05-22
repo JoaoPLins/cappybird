@@ -21,4 +21,7 @@ class Cappy():
         self.sprite.rect[1] = self.sprite.rect[1] + y
         self.cappyRect.update(self.sprite.rect[0],self.sprite.rect[1],10,10)
 
+    def GetTheCappyNumber(self):
+        return self.sprite.rect[1]
+
         
