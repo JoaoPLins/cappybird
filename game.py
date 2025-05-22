@@ -13,7 +13,9 @@ class Game:
         self.bg2 = obj("assets/base.png",-256,480)
         self.botao= obj("assets/information.png",220,10)
         self.mouse = pygame.Rect(10,10,10,10) 
-        
+        self.help = False
+
+
         self.player = Cappy()
         self.canos = Canos()
         self.canos.AddCano(100,100)
@@ -47,7 +49,9 @@ class Game:
                 theMessageb = self.font.render("precione R para Reiniciar.",1,[0,0,0])
                 window.blit(theMessage,(50,150))
                 window.blit(theMessageb,(20,190))
-
+            case 3: 
+                pass
+                #aqui 
 
     def draw(self,window):
         match self.gameStatus:
@@ -128,7 +132,14 @@ class Game:
                 self.gamelost = True
                 self.setStatus(2)
                 print("gamelost for pipe down")
-        
+        if self.mouse.collidedict(self.botao.group.spritedict):
+            self.help = True
+        elif self.help == True:
+            self.help = False
+
+
+
+
     def restart(self):
         self.canos = Canos()
         self.player = Cappy()
@@ -163,3 +174,16 @@ class Game:
                 self.boostfall = False
             if event.dict.get('key') == pygame.K_r:
                 self.restart()
+            if self.gameStatus == 3:
+                if event.dict.get('key') == pygame.K_ESCAPE:
+                    self.setStatus(1)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.help == True:
+                pass
+                #muda a imagem aqui.
+            else:
+                pass
+                #colocar o estado original aqui pra voltar a animaçaõ do botao nao impresso;
+        if event.type == pygame.MOUSEBUTTONUP:
+            if self.help == True:
+                self.setStatus(3)
