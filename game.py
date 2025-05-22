@@ -78,7 +78,7 @@ class Game:
 
     def setMouse(self):
         Mousepos = pygame.mouse.get_pos()
-        self.mouse.center(Mousepos[1],Mousepos[2])
+        self.mouse.center = Mousepos
 
     def setStatus(self,status):
         self.gameStatus = status   
