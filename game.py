@@ -59,7 +59,7 @@ class Game:
                 self.bg.drawing(window)
                 self.bg2.drawing(window)
                 self.write(window)
-                self.botao.drawing(window)
+                #self.botao.drawing(window)
                 self.player.drawing(window)
             case 2:
                 self.background.drawing(window)
