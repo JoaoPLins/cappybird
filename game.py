@@ -8,10 +8,12 @@ import random
 
 class Game: 
     def __init__(self):
-        self.background = obj("assets/background.png", 0,0)
+        self.background = obj("assets/background-underwater.png", 0,0)
         self.bg = obj("assets/base.png", 0 ,480)
         self.bg2 = obj("assets/base.png",-256,480)
         self.botao= obj("assets/information.png",220,10)
+        
+
         self.mouse = pygame.Rect(10,10,10,10) 
         
         self.player = Cappy()
