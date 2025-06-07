@@ -3,35 +3,46 @@ from DRobj import obj
 from menu import Menu
 from game import Game
 from instruction import InstructionScreen
+from winner import WinnerScreen
+ 
 #from bubble_transition import BubbleTransition
+
+import random
+import os
+import subprocess
 
 #precisa testar     
 pygame.init()
 icon = pygame.image.load("assets/icon.png")
+FPS = 10
 
 class Main:
     def __init__(self,sizex,sizey,title):
 
+        #informacoes de tamanho
         self.window = pygame.display.set_mode((sizex,sizey))
         self.title = pygame.display.set_caption(title)
         self.icon = pygame.display.set_icon(icon)
-
+        
+        # onde você cria o Game
+        self.game = Game(self)
+        
         self.loop = True
         self.menu = Menu()
-        self.game = Game()
+
         self.underwater_fx = pygame.mixer.Sound("assets/underwater-fx.wav")
         self.fx_started = False
-        self.jump_sound = pygame.mixer.Sound("assets/diving-fx.wav")  # ou outro nome de som
+        self.jump_sound = pygame.mixer.Sound("assets/diving-fx.wav")  #som underwater
         self.jump_sound.set_volume(0.6)  # ajuste de volume
+        self.winner_screen = WinnerScreen(bg_sound="assets/underwater-fx.wav")
 
         self.gameStatus = 0
 
+        #tela de instrucoes tecla M
         self.instruction = InstructionScreen()
         self.instruction_already_shown = False
 
-        #self.transition = BubbleTransition()
-        #self.transition_active = False
-        #self.prev_instruction_visible = False  # para detectar fechamento
+        
      
 
     def updategamestatus(self,arg):
@@ -48,19 +59,9 @@ class Main:
                 self.game.draw(self.window)
                 self.game.update()
 
-                #if not self.instruction.visible:
-                #    self.game.update()
-                    
-        #self.game.draw(self.window)
-        #self.transition.draw(self.window)
-
         # Desenhar a tela de instrução por cima de tudo
         if self.instruction.visible:
             self.instruction.draw(self.window)
-
-
-                
-
 
     def events(self):
         for events in pygame.event.get():
@@ -92,14 +93,6 @@ class Main:
             if events.type == pygame.KEYDOWN and events.key == pygame.K_SPACE:
                 if self.gameStatus == 1 and not self.instruction.visible:
                     self.jump_sound.play()
-
-    #def draw_transition(self):
-    #    self.game.draw(self.window)
-    #    self.transition.draw(self.window)
-    #   
-    #    if self.instruction.visible:
-    #        self.instruction.draw(self.window)
-
     
     def update(self):
         while self.loop:
@@ -122,13 +115,26 @@ class Main:
                 else:
                     self.instruction.visible = False
 
+            # VERIFICA SE VENCEU
+            if self.gameStatus == 3 and self.game.venceu:
+                self.stop_game_sound()
+                self.winner_screen.play_video()
+
+                # Reiniciar o jogo
+                self.game = Game(self)  # Cria novo jogo
+                self.gameStatus == 1
+                self.game.set_start()
+                self.underwater_fx.play(-1)
+                self.fx_started = True
+                self.instruction.visible = False
+
             pygame.display.update()
+
+
 
     def stop_game_sound(self):
         self.underwater_fx.stop()
         self.fx_started = False
-
-
 
 game = Main(288,512,"CappyBird")
 game.update()

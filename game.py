@@ -2,18 +2,19 @@ import pygame
 from DRobj import obj
 from cappy import Cappy
 from canos import Canos
+from winner import WinnerScreen
 import random
 
 
 
 class Game: 
-    def __init__(self):
-        self.background = obj("assets/background-underwater.png", 0,0)
+    def __init__(self, main):
+        self.main = main
+        self.background = obj("assets/background.png", 0,0)
         self.bg = obj("assets/base.png", 0 ,480)
         self.bg2 = obj("assets/base.png",-256,480)
-        self.botao= obj("assets/information.png",220,10)
-        
-
+        #self.botao= obj("assets/information.png",220,10)
+       
         self.mouse = pygame.Rect(10,10,10,10) 
         
         self.player = Cappy()
@@ -35,6 +36,12 @@ class Game:
         self.gameStatus = 1
 
         self.janeladeConversa = obj("assets/paused.png",0,0)
+        
+        #tela com video winner
+        self.winner_screen = WinnerScreen()
+
+        
+
 
     def write(self,window):
         match self.gameStatus:
@@ -42,7 +49,7 @@ class Game:
                 thepoints = self.font.render(str(self.canos.get_points()),1,[0,0,0])
                 window.blit(thepoints,(130,50))
             case 2:
-                
+                #adicionar transição de bolhas e som quando perder
                 thepoints = self.font.render(str(self.canos.get_points()),1,[0,0,0])
                 window.blit(thepoints,(130,120))
                 theMessage = self.font.render("Você perdeu o jogo!" ,1,[0,0,0])
@@ -59,7 +66,7 @@ class Game:
                 self.bg.drawing(window)
                 self.bg2.drawing(window)
                 self.write(window)
-                self.botao.drawing(window)
+                #self.botao.drawing(window)
                 self.player.drawing(window)
             case 2:
                 self.background.drawing(window)
@@ -70,13 +77,14 @@ class Game:
                 self.player.drawing(window)
                 self.janeladeConversa.drawing(window)
             case 3:
-                self.background.drawing(window)
-                self.canos.drawtheCanos(window)
-                self.bg.drawing(window)
-                self.bg2.drawing(window)
-                self.write(window)
-                self.player.drawing(window)
-                self.janeladeConversa.drawing(window)    
+                self.winner_screen.show_message(window, self.font)
+                #self.background.drawing(window)
+                #self.canos.drawtheCanos(window)
+                #self.bg.drawing(window)
+                #self.bg2.drawing(window)
+                #self.write(window)
+                #self.player.drawing(window)
+                #self.janeladeConversa.drawing(window)    
 
     def setMouse(self):
         Mousepos = pygame.mouse.get_pos()
@@ -140,7 +148,8 @@ class Game:
 
 
     def update(self):
-        self.clock.tick(250) 
+        #atualizacao da tela - velocidade do jogo
+        self.clock.tick(100) 
         match self.gameStatus:
             case 1:
                 self.setMouse()
@@ -149,10 +158,17 @@ class Game:
                 self.Cappypulo()
                 self.colision()
                 self.canos.AddCano(random.randint(0,100),random.randint(0,100))
+                
+                if self.canos.get_points() >= 3:
+                    self.status = 3
+                    self.main.stop_game_sound()
+                    self.winner_screen.play_video()
             case 2:
                 pass
             case 3:
+                #chamada da tela de video
                 pass
+
     def status(self):
         if self.change_scene == False: 
             return False
@@ -163,5 +179,8 @@ class Game:
             if event.dict.get('key') == pygame.K_SPACE:
                 self.boost = True
                 self.boostfall = False
-            if event.dict.get('key') == pygame.K_r:
+            if event.dict.get('key') == pygame.K_r and self.gameStatus ==2:
+                self.restart()
+
+            if event.dict.get('key') == pygame.K_RETURN and self.gameStatus == 3:
                 self.restart()

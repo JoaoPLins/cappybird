@@ -1,4 +1,3 @@
-
 import pygame
 from DRobj import obj
 
@@ -6,11 +5,11 @@ class InstructionScreen:
     def __init__(self):
         self.bg = obj("assets/menu.png", 0, 0)
         self.btn_close = obj("assets/close.png", 220, 10)
-        self.font = pygame.font.SysFont("arial", 12, True)
+        self.font = pygame.font.SysFont("arial", 14, True)
         self.texts = [
             "Pressione a tecla ESPAÇO para nadar.",
-            "Nade desviando dos canos.",
-            "Pressione o botão para fechar."
+            "Desvie dos obstáculos.",
+            "Pressione ESC para sair"
         ]
         self.visible = False
         self.mouse = pygame.Rect(0, 0, 1, 1)
