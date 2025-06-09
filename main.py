@@ -4,12 +4,12 @@ from menu import Menu
 from game import Game
 from instruction import InstructionScreen
 from winner import WinnerScreen
- 
-#from bubble_transition import BubbleTransition
+from lose import LoseScreen
 
 import random
 import os
 import subprocess
+import sys
 
 #precisa testar     
 pygame.init()
@@ -34,13 +34,17 @@ class Main:
         self.fx_started = False
         self.jump_sound = pygame.mixer.Sound("assets/diving-fx.wav")  #som underwater
         self.jump_sound.set_volume(0.6)  # ajuste de volume
+        #definir url do som para parar posteriormente
         self.winner_screen = WinnerScreen(bg_sound="assets/underwater-fx.wav")
+        self.lose_screen = LoseScreen(self, bg_sound="assets/underwater-fx.wav")
 
         self.gameStatus = 0
 
         #tela de instrucoes tecla M
         self.instruction = InstructionScreen()
         self.instruction_already_shown = False
+
+        self.lose_screen = LoseScreen(self)
 
         
      
@@ -120,23 +124,42 @@ class Main:
                 self.stop_game_sound()
                 self.winner_screen.play_video()
 
-                # Reiniciar o jogo
-                self.game = Game(self)  # Cria novo jogo
-                self.gameStatus == 1
-                self.game.set_start()
-                self.underwater_fx.play(-1)
-                self.fx_started = True
-                self.instruction.visible = False
+                if not self.loop:
+                    break  # impede o reinício se o jogador fechou a janela
+
+
+            # VERIFICA SE PERDEU
+            if self.gameStatus == 2:
+                self.stop_game_sound()
+                restart = self.lose_screen.play_video()
+
+                if not self.loop:
+                    break  # impede o reinício se o jogador fechou a janela
+
+                if restart:
+                    self.game = Game(self)  # reinicia o jogo
+                    self.gameStatus = 0
+                    self.game.set_start()
+                    self.underwater_fx.play(-1)
+                    self.fx_started = True
+                    self.instruction.visible = False
+                else:
+                    self.loop = False  # Encerra o jogo completamente
+                    break
+
+            
 
             pygame.display.update()
-
+        pygame.quit()
+        sys.exit()
+    
 
 
     def stop_game_sound(self):
         self.underwater_fx.stop()
         self.fx_started = False
+    
+
 
 game = Main(288,512,"CappyBird")
 game.update()
-
-
