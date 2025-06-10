@@ -19,6 +19,11 @@ class Cappy():
         self.sprite.rect[1] = 100
         self.cappyRect = pygame.Rect(self.sprite.rect[0], self.sprite.rect[1], 10, 10)
 
+        #melhoria no pulo - ease no movimento
+        self.gravity = 0.18
+        self.jump_speed = -5
+
+
 
     def drawing(self, window):
         self.group.draw(window)

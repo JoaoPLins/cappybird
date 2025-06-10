@@ -2,9 +2,10 @@ import pygame
 from DRobj import obj
 
 class Menu: 
-    def __init__(self):
+    def __init__(self,main):
         self.bg = obj("assets/start-menu.png",0,0)
         self.change_scene = False
+        self.main = main
         self.sound = pygame.mixer.Sound("assets/theme-sound.wav") #musica de fundo
 
         # Inicia a música do menu
@@ -26,6 +27,9 @@ class Menu:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 pygame.mixer.music.stop()
-                self.change_scene = True
+                self.main.updategamestatus(1)
                 print ("gamestart")
+            if event.key == pygame.K_m:
+                self.main.updategamestatus(2)
+                print ("instruções")
     
