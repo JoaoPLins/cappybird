@@ -2,12 +2,11 @@
 import pygame
 import cv2
 import numpy as np
-import os
-import sys
 
 
 class WinnerScreen:
-    def __init__(self, video_path="assets/winner-cappy.mp4", bg_sound=None):
+    def __init__(self, main, video_path="assets/winner-cappy.mp4", bg_sound=None):
+        self.main = main
         self.video_path = video_path
         self.bg_sound_path = bg_sound  # define o caminho
         pygame.init()
@@ -58,8 +57,12 @@ class WinnerScreen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing = False
+                    self.main.quit()
+                    pygame.quit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     playing = False
+                    self.main.updategamestatus(1)
+                    self.main.game.restart()
 
             # Processa frame
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -79,5 +82,4 @@ class WinnerScreen:
 
         cap.release()
         cv2.destroyAllWindows()
-        pygame.quit()
 

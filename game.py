@@ -39,7 +39,7 @@ class Game:
         self.janeladeConversa = obj("assets/paused.png",0,0)
         
         #tela com video winner
-        self.winner_screen = WinnerScreen()
+        self.winner_screen = WinnerScreen(self.main)
 
         
 
@@ -50,7 +50,7 @@ class Game:
                 thepoints = self.font.render(str(self.canos.get_points()),1,[0,0,0])
                 window.blit(thepoints,(130,50))
             case 2:
-                lose_screen = LoseScreen(video_path="assets/perdeu.mp4", bg_sound="assets/underwater-fx.wav")
+                lose_screen = LoseScreen(self.main,video_path="assets/perdeu.mp4", bg_sound="assets/underwater-fx.wav")
                 restart = lose_screen.draw()
 
                 if restart:
@@ -166,22 +166,20 @@ class Game:
                     self.main.updategamestatus(3)
                     self.venceu = True
 
-                # Verifica derrota
-                if self.gameStatus == 2:
+                
+
+
+            case 2:
                     self.gamelost = True
                     self.main.stop_game_sound()
                     self.main.lose_screen.play_video()
                     self.main.updategamestatus(2)
                     self.gamelost = False
-
-            case 2:
                 # game over screen
-                pass
+               
 
-            case 3:
-                # vitória/tela de vídeo
-                pass
 
+    #nao lembro onde usa isso, mas acho que nao usa. deixei so pra ter ctz.
     def status(self):
         if self.change_scene == False: 
             return False

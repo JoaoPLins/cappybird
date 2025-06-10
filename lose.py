@@ -1,8 +1,7 @@
 import pygame
 import cv2
 import numpy as np
-import os
-import sys
+
 
 
 class LoseScreen:
@@ -56,13 +55,15 @@ class LoseScreen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing = False
+                    self.main.quit()
+                    pygame.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
                         restart = True
                         playing = False
                         self.main.updategamestatus(1)
                         print("updategamestatus(1)")
-                        self.main.game.set_start()
+                        self.main.game.restart()
                         print("reinicia o jogo")
 
 
